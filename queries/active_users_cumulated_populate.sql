@@ -16,7 +16,7 @@ today AS (
 -- is_active_today may be null as well since it's null on days when a user didn't generate an event
 combined AS (
 SELECT
- -- We need to COALESCE here since t.user_id and y.user_id may be
+ -- We need to COALESCE here since t.user_id may be a new user and it never existed in cumulative table before.
  COALESCE(y.user_id, t.user_id) AS user_id,
  -- if y.activity_array is null (indicating a brand new user), we have to coalesce with an array of size 1
  -- this array just holds the value for today since that's the only history we have

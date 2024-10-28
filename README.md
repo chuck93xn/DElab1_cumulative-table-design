@@ -57,9 +57,9 @@ This design is pretty simple with only 3 steps:
 ### The Cumulation step
   - The table schema for this step is [here](tables/active_users_cumulated.sql)
   - The query for this step is much more complex. It's [here](queries/active_users_cumulated_populate.sql)
-    - This step we take **today's** data from the daily table and **yesterday's** data from the cumulated table
+    - In this step we take **today's** data from the daily table and **yesterday's** data from the cumulated table
     - We `FULL OUTER JOIN` these two data sets on `today.user_id = yesterday.user_id`
-    - If a user is brand new, they won't be in yesterday's data also if a user wasn't active today, they aren't in today's data
+    - If a user is brand new, they won't be in yesterday's data. Also, if a user wasn't active today, they aren't in today's data
     - So we need to `COALESCE(today.user_id, yesterday.user_id) as user_id` to keep track of all the users
     - Next we want to build the `activity_array` column. We only want `activity_array` to store the data of the last 30 days
       - So we check to see if `CARDINALITY(activity_array) < 30` to understand if we can just add today's value to the front of the array or do we need to slice an element off the end of the array before adding today's value to the front
