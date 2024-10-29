@@ -23,28 +23,28 @@ SELECT
  COALESCE(
         IF(CARDINALITY( y.activity_array) < 30,
             ARRAY[COALESCE(t.is_active_today, 0)] || y.activity_array,
-            ARRAY[COALESCE(t.is_active_today, 0)] || SLICE(y.activity_array, -1, 29)
+            ARRAY[COALESCE(t.is_active_today, 0)] || REVERSE(SLICE(REVERSE(y.activity_array),2,29))
          )
        , ARRAY[t.is_active_today]
  ) as activity_array,
   COALESCE(
          IF(CARDINALITY( y.like_array) < 30,
              ARRAY[COALESCE(t.num_likes, 0)] || y.like_array,
-             ARRAY[COALESCE(t.num_likes, 0)] || SLICE(y.like_array, -1, 29)
+             ARRAY[COALESCE(t.num_likes, 0)] || REVERSE(SLICE(REVERSE(y.like_array),2,29))
           )
         , ARRAY[t.num_likes]
   ) as like_array,
     COALESCE(
            IF(CARDINALITY( y.comment_array) < 30,
                ARRAY[COALESCE(t.num_comments, 0)] || y.comment_array,
-               ARRAY[COALESCE(t.num_comments, 0)] || SLICE(y.comment_array, -1, 29)
+               ARRAY[COALESCE(t.num_comments, 0)] || REVERSE(SLICE(REVERSE(y.comment_array),2,29))
             )
           , ARRAY[t.num_comments]
     ) as comment_array,
       COALESCE(
              IF(CARDINALITY( y.share_array) < 30,
                  ARRAY[COALESCE(t.num_shares, 0)] || y.share_array,
-                 ARRAY[COALESCE(t.num_shares, 0)] || SLICE(y.share_array, -1, 29)
+                 ARRAY[COALESCE(t.num_shares, 0)] || REVERSE(SLICE(REVERSE(y.share_array),2,29))
               )
             , ARRAY[t.num_shares]
       ) as share_array,
