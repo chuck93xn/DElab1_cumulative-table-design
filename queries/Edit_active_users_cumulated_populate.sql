@@ -65,7 +65,8 @@ SELECT
       -- if any of the array values are 1, then the user was active in the last month
       CASE WHEN ARRAY_SUM(activity_array) > 0 THEN 1 ELSE 0 END AS is_monthly_active,
       -- if any of the first 7 array values are non-zero, then the user was active in the last week
-      CASE WHEN ARRAY_SUM(SLICE(activity_array, 1, 7)) > 0 THEN 1 ELSE 0 END AS is_weekly_active
+      -- CASE WHEN ARRAY_SUM(SLICE(activity_array, 1, 7)) > 0 THEN 1 ELSE 0 END AS is_weekly_active
+      CASE WHEN ARRAY_SUM(activity_array[1:7]) > 0 THEN 1 ELSE 0 END AS is_weekly_active
       activity_array,
       like_array,
       share_array,
